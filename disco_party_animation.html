@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disco Party Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .disco-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(45deg, #1a0033, #330066, #6600cc);
+            animation: backgroundPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes backgroundPulse {
+            0% { filter: hue-rotate(0deg) brightness(1); }
+            100% { filter: hue-rotate(180deg) brightness(1.3); }
+        }
+
+        .disco-ball {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #silver, #white, #silver);
+            border-radius: 50%;
+            animation: rotate 2s linear infinite;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+        }
+
+        .disco-ball::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(200,200,200,0.5) 50%, transparent 100%);
+            border-radius: 50%;
+        }
+
+        @keyframes rotate {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        .spotlight {
+            position: absolute;
+            width: 4px;
+            height: 300px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+            transform-origin: top;
+            animation: spotlightMove 2s ease-in-out infinite alternate;
+        }
+
+        .spotlight:nth-child(1) { left: 20%; animation-delay: 0s; background: #ff0080; }
+        .spotlight:nth-child(2) { left: 40%; animation-delay: 0.5s; background: #00ff80; }
+        .spotlight:nth-child(3) { left: 60%; animation-delay: 1s; background: #8000ff; }
+        .spotlight:nth-child(4) { left: 80%; animation-delay: 1.5s; background: #ff8000; }
+
+        @keyframes spotlightMove {
+            0% { transform: rotate(-30deg); }
+            100% { transform: rotate(30deg); }
+        }
+
+        .dance-floor {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, #000, #333);
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 2px;
+        }
+
+        .floor-tile {
+            background: rgba(255, 255, 255, 0.1);
+            animation: tileGlow 1s ease-in-out infinite alternate;
+        }
+
+        .floor-tile:nth-child(odd) { animation-delay: 0.1s; }
+        .floor-tile:nth-child(even) { animation-delay: 0.3s; }
+
+        @keyframes tileGlow {
+            0% { 
+                background: rgba(255, 0, 128, 0.3);
+                box-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+            }
+            100% { 
+                background: rgba(0, 255, 128, 0.3);
+                box-shadow: 0 0 20px rgba(0, 255, 128, 0.8);
+            }
+        }
+
+        .dancer {
+            position: absolute;
+            bottom: 20%;
+            width: 60px;
+            height: 100px;
+            background: linear-gradient(to bottom, #ff0080, #ff4080);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: dance 1.5s ease-in-out infinite;
+        }
+
+        .dancer:nth-child(1) { left: 25%; animation-delay: 0s; }
+        .dancer:nth-child(2) { left: 50%; animation-delay: 0.5s; background: linear-gradient(to bottom, #00ff80, #40ff80); }
+        .dancer:nth-child(3) { left: 75%; animation-delay: 1s; background: linear-gradient(to bottom, #8000ff, #a040ff); }
+
+        @keyframes dance {
+            0%, 100% { 
+                transform: translateY(0) scale(1);
+                filter: hue-rotate(0deg);
+            }
+            25% { 
+                transform: translateY(-20px) scale(1.1);
+                filter: hue-rotate(90deg);
+            }
+            50% { 
+                transform: translateY(-10px) scale(0.9);
+                filter: hue-rotate(180deg);
+            }
+            75% { 
+                transform: translateY(-30px) scale(1.2);
+                filter: hue-rotate(270deg);
+            }
+        }
+
+        .music-notes {
+            position: absolute;
+            font-size: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .music-notes:nth-child(1) { left: 15%; top: 30%; animation-delay: 0s; }
+        .music-notes:nth-child(2) { left: 35%; top: 25%; animation-delay: 1s; }
+        .music-notes:nth-child(3) { left: 65%; top: 35%; animation-delay: 2s; }
+        .music-notes:nth-child(4) { left: 85%; top: 20%; animation-delay: 0.5s; }
+
+        @keyframes float {
+            0% { 
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% { 
+                transform: translateY(-50px) rotate(180deg);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .party-title {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3em;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { 
+                text-shadow: 0 0 20px rgba(255, 0, 128, 0.8);
+                transform: translateX(-50%) scale(1);
+            }
+            100% { 
+                text-shadow: 0 0 30px rgba(0, 255, 128, 1);
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff0080;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .strobe-light {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            animation: strobe 0.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes strobe {
+            0%, 50% { background: rgba(255, 255, 255, 0); }
+            25%, 75% { background: rgba(255, 255, 255, 0.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="disco-container">
+        <div class="party-title">LET'S GO DADDY JEYPE!</div>
+        
+        <div class="disco-ball"></div>
+        
+        <div class="spotlight"></div>
+        <div class="spotlight"></div>
+        <div class="spotlight"></div>
+        <div class="spotlight"></div>
+        
+        <div class="music-notes">♪</div>
+        <div class="music-notes">♫</div>
+        <div class="music-notes">♪</div>
+        <div class="music-notes">♫</div>
+        
+        <div class="dancer"></div>
+        <div class="dancer"></div>
+        <div class="dancer"></div>
+        
+        <div class="dance-floor">
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+            <div class="floor-tile"></div>
+        </div>
+        
+        <div class="strobe-light"></div>
+    </div>
+
+    <script>
+        // Add dynamic confetti
+        function createConfetti() {
+            const colors = ['#ff0080', '#00ff80', '#8000ff', '#ff8000', '#0080ff'];
+            const container = document.querySelector('.disco-container');
+            
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(confetti);
+            }
+        }
+
+        // Add interactive features
+        document.addEventListener('click', function() {
+            const container = document.querySelector('.disco-container');
+            container.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
+            
+            // Create burst of confetti on click
+            for (let i = 0; i < 10; i++) {
+                const burst = document.createElement('div');
+                burst.className = 'confetti';
+                burst.style.left = Math.random() * 100 + '%';
+                burst.style.top = '50%';
+                burst.style.background = '#fff';
+                burst.style.animationDuration = '1s';
+                container.appendChild(burst);
+                
+                setTimeout(() => burst.remove(), 1000);
+            }
+        });
+        
+
+        // Initialize confetti
+        createConfetti();
+        
+        // Recreate confetti periodically
+        setInterval(createConfetti, 5000);
+    </script>
+</body>
+</html>
